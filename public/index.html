@@ -6,6 +6,7 @@
 <title>統計2級 学習アプリ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
   --bg: #0f172a;
@@ -392,6 +393,70 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .pg-subtitle { font-size: 13px; color: var(--text2); margin-top: 4px; }
 
 strong { color: #e2e8f0; }
+
+/* ===== BOARD ===== */
+.bb-form { display: flex; flex-direction: column; gap: 10px; }
+.bb-input {
+  width: 100%; padding: 12px 14px; border-radius: 12px;
+  border: 1.5px solid var(--border); background: var(--surface2);
+  color: var(--text); font-size: 0.95rem; font-family: inherit;
+  outline: none; resize: none; transition: border-color 0.2s;
+}
+.bb-input:focus { border-color: var(--accent); }
+.bb-input::placeholder { color: var(--text2); }
+.bb-form-row { display: flex; gap: 10px; align-items: center; }
+.bb-category-select {
+  flex: 1; padding: 10px 12px; border-radius: 12px;
+  border: 1.5px solid var(--border); background: var(--surface2);
+  color: var(--text); font-size: 0.88rem; font-family: inherit; outline: none;
+}
+.bb-filter-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 16px 12px; }
+.bb-filter-btn {
+  padding: 7px 16px; border-radius: 20px; border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--text2); font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all 0.2s; -webkit-tap-highlight-color: transparent;
+}
+.bb-filter-btn.active { border-color: var(--accent); background: rgba(99,102,241,0.15); color: var(--accent2); }
+.bb-post {
+  background: var(--surface); border-radius: 16px; padding: 16px 18px;
+  margin: 0 16px 12px; border: 1px solid var(--border); transition: border-color 0.2s;
+}
+.bb-post:hover { border-color: var(--accent); }
+.bb-post-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
+.bb-post-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bb-nickname { font-size: 0.82rem; color: var(--text2); font-weight: 600; }
+.bb-time { font-size: 0.75rem; color: var(--text2); opacity: 0.7; }
+.bb-cat-badge { font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 10px; }
+.bb-cat-badge.質問 { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+.bb-cat-badge.雑談 { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+.bb-cat-badge.試験情報 { background: rgba(245,158,11,0.15); color: #fcd34d; }
+.bb-content { font-size: 0.95rem; line-height: 1.75; color: var(--text); margin-bottom: 10px; word-break: break-word; }
+.bb-actions { display: flex; gap: 10px; align-items: center; }
+.bb-like-btn {
+  padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border);
+  background: transparent; color: var(--text2); font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all 0.2s; -webkit-tap-highlight-color: transparent;
+}
+.bb-like-btn.liked { border-color: #f43f5e; background: rgba(244,63,94,0.15); color: #fb7185; }
+.bb-reply-toggle {
+  padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border);
+  background: transparent; color: var(--text2); font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all 0.2s; -webkit-tap-highlight-color: transparent;
+}
+.bb-reply-toggle:hover { border-color: var(--accent); color: var(--text); }
+.bb-replies { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.bb-reply { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.bb-reply:last-of-type { border-bottom: none; }
+.bb-reply-meta { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.bb-reply-nickname { font-size: 0.78rem; color: var(--text2); font-weight: 600; }
+.bb-reply-content { font-size: 0.88rem; color: #cbd5e1; line-height: 1.65; }
+.bb-reply-form { display: flex; gap: 8px; margin-top: 10px; }
+.bb-reply-input {
+  flex: 1; padding: 9px 12px; border-radius: 10px; border: 1.5px solid var(--border);
+  background: var(--surface2); color: var(--text); font-size: 0.88rem; font-family: inherit; outline: none;
+}
+.bb-reply-input:focus { border-color: var(--accent); }
+.bb-loading, .bb-empty { text-align: center; color: var(--text2); padding: 32px 20px; font-size: 0.9rem; }
 </style>
 </head>
 <body>
@@ -490,6 +555,44 @@ strong { color: #e2e8f0; }
     </div>
   </div>
 
+    <!-- pg-board -->
+    <div class="page" id="pg-board">
+      <div class="pg-title-header">
+        <div class="pg-title">💬 みんなの掲示板</div>
+        <div class="pg-subtitle">疑問・情報をシェアして一緒に合格を目指そう</div>
+      </div>
+
+      <!-- 投稿フォーム -->
+      <div style="background:var(--surface);border-radius:18px;padding:18px;margin:0 16px 14px;border:1px solid var(--border);">
+        <div style="font-size:0.82rem;font-weight:700;color:var(--accent2);margin-bottom:12px;">✏️ 新規投稿</div>
+        <div class="bb-form">
+          <input class="bb-input" id="bb-nickname" type="text" placeholder="ニックネーム（例：受験生A）" maxlength="20">
+          <textarea class="bb-input" id="bb-content" rows="3" placeholder="投稿内容を入力..." maxlength="500"></textarea>
+          <div class="bb-form-row">
+            <select class="bb-category-select" id="bb-category">
+              <option value="質問">❓ 質問</option>
+              <option value="雑談">💬 雑談</option>
+              <option value="試験情報">📋 試験情報</option>
+            </select>
+            <button style="padding:10px 20px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:inherit;white-space:nowrap;" onclick="bbSubmitPost()">投稿する</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- フィルター -->
+      <div class="bb-filter-row">
+        <button class="bb-filter-btn active" onclick="bbSetFilter('all',this)">すべて</button>
+        <button class="bb-filter-btn" onclick="bbSetFilter('質問',this)">❓ 質問</button>
+        <button class="bb-filter-btn" onclick="bbSetFilter('雑談',this)">💬 雑談</button>
+        <button class="bb-filter-btn" onclick="bbSetFilter('試験情報',this)">📋 試験情報</button>
+      </div>
+
+      <!-- 投稿一覧 -->
+      <div id="bb-posts-list">
+        <div class="bb-loading">読み込み中...</div>
+      </div>
+    </div>
+
   <!-- Bottom Nav -->
   <nav id="bottom-nav">
     <button class="nav-btn active" id="nb-course" onclick="navTab('course')">
@@ -503,6 +606,9 @@ strong { color: #e2e8f0; }
     </button>
     <button class="nav-btn" id="nb-ai" onclick="navTab('ai')">
       <span class="nav-icon">🤖</span>AI質問
+    </button>
+    <button class="nav-btn" id="nb-board" onclick="navTab('board')">
+      <span class="nav-icon">💬</span>掲示板
     </button>
   </nav>
 </div>
@@ -1029,6 +1135,7 @@ function showPage() {
   if(S.tab==='course' && S.pg==='lesson') renderLesson();
   if(S.tab==='quiz') renderQuiz();
   if(S.tab==='glossary') renderGlossary();
+  if(S.tab==='board') { bbLoadPosts(); bbSubscribeRealtime(); }
 }
 
 function goChapter(ci) { S.ci=ci; S.pg='chapter'; showPage(); }
@@ -1479,6 +1586,184 @@ document.addEventListener('DOMContentLoaded', function() {
   var streak=LS.get('streak',7);
   document.getElementById('streak-num').textContent=streak;
 });
+</script>
+
+<script>
+// ===================== BULLETIN BOARD =====================
+const SUPABASE_URL = 'https://bxmtqztyopbhdlkoeggx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4bXRxenR5b3BiaGRsa29lZ2d4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY0NTE0MywiZXhwIjoyMDkxMjIxMTQzfQ.W9O5-nhcqT0Jj6Fjf8AzwtvDw2rhyKYYdrGU6YXWzQo';
+const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let bbFilter = 'all';
+let bbPosts = [];
+let likedPosts = JSON.parse(localStorage.getItem('bb_liked') || '[]');
+let bbRealtime = null;
+
+async function bbLoadPosts() {
+  const list = document.getElementById('bb-posts-list');
+  list.innerHTML = '<div class="bb-loading">読み込み中...</div>';
+  try {
+    let query = sbClient.from('posts').select('*').order('created_at', { ascending: false });
+    if (bbFilter !== 'all') query = query.eq('category', bbFilter);
+    const { data, error } = await query;
+    if (error) throw error;
+    bbPosts = data || [];
+    bbRender();
+  } catch (e) {
+    list.innerHTML = '<div class="bb-empty">⚠️ 投稿の取得に失敗しました。<br><small>' + e.message + '</small></div>';
+  }
+}
+
+function bbRender() {
+  const list = document.getElementById('bb-posts-list');
+  const posts = bbFilter === 'all' ? bbPosts : bbPosts.filter(function(p){ return p.category === bbFilter; });
+  if (posts.length === 0) {
+    list.innerHTML = '<div class="bb-empty">まだ投稿がありません。最初の投稿をしてみましょう！</div>';
+    return;
+  }
+  list.innerHTML = posts.map(function(post){ return bbPostHTML(post); }).join('');
+}
+
+function bbPostHTML(post) {
+  const isLiked = likedPosts.includes(post.id);
+  const timeStr = bbFormatTime(post.created_at);
+  const catEmoji = post.category === '質問' ? '❓' : post.category === '雑談' ? '💬' : '📋';
+  return '<div class="bb-post" id="post-' + post.id + '">'
+    + '<div class="bb-post-header">'
+    + '<div class="bb-post-meta">'
+    + '<span class="bb-nickname">👤 ' + bbEscape(post.nickname) + '</span>'
+    + '<span class="bb-cat-badge ' + post.category + '">' + catEmoji + ' ' + post.category + '</span>'
+    + '</div>'
+    + '<span class="bb-time">' + timeStr + '</span>'
+    + '</div>'
+    + '<div class="bb-content">' + bbEscape(post.content) + '</div>'
+    + '<div class="bb-actions">'
+    + '<button class="bb-like-btn' + (isLiked ? ' liked' : '') + '" onclick="bbToggleLike(\'' + post.id + '\',' + (post.likes||0) + ',' + isLiked + ')">❤️ ' + (post.likes||0) + '</button>'
+    + '<button class="bb-reply-toggle" onclick="bbToggleReplies(\'' + post.id + '\')">💬 返信を見る</button>'
+    + '</div>'
+    + '<div class="bb-replies" id="replies-' + post.id + '" style="display:none;">'
+    + '<div id="replies-content-' + post.id + '">読み込み中...</div>'
+    + '<div class="bb-reply-form">'
+    + '<input class="bb-reply-input" id="reply-input-' + post.id + '" type="text" placeholder="返信を入力..." maxlength="200">'
+    + '<button style="padding:7px 14px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:0.82rem;cursor:pointer;font-family:inherit;white-space:nowrap;" onclick="bbSubmitReply(\'' + post.id + '\')">返信</button>'
+    + '</div>'
+    + '</div>'
+    + '</div>';
+}
+
+function bbEscape(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function bbFormatTime(iso) {
+  const d = new Date(iso), now = new Date();
+  const diff = Math.floor((now - d) / 1000);
+  if (diff < 60) return 'たった今';
+  if (diff < 3600) return Math.floor(diff/60) + '分前';
+  if (diff < 86400) return Math.floor(diff/3600) + '時間前';
+  return d.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' });
+}
+
+async function bbSubmitPost() {
+  const nickname = document.getElementById('bb-nickname').value.trim();
+  const content = document.getElementById('bb-content').value.trim();
+  const category = document.getElementById('bb-category').value;
+  if (!nickname) { alert('ニックネームを入力してください'); return; }
+  if (!content) { alert('投稿内容を入力してください'); return; }
+  const btn = document.querySelector('[onclick="bbSubmitPost()"]');
+  btn.textContent = '投稿中...'; btn.disabled = true;
+  try {
+    const { error } = await sbClient.from('posts').insert({ nickname, content, category, likes: 0 });
+    if (error) throw error;
+    document.getElementById('bb-content').value = '';
+    await bbLoadPosts();
+  } catch (e) {
+    alert('投稿に失敗しました: ' + e.message);
+  } finally {
+    btn.textContent = '投稿する'; btn.disabled = false;
+  }
+}
+
+async function bbToggleLike(postId, currentLikes, isLiked) {
+  const newLikes = isLiked ? currentLikes - 1 : currentLikes + 1;
+  try {
+    const { error } = await sbClient.from('posts').update({ likes: newLikes }).eq('id', postId);
+    if (error) throw error;
+    if (isLiked) {
+      likedPosts = likedPosts.filter(function(id){ return id !== postId; });
+    } else {
+      likedPosts.push(postId);
+    }
+    localStorage.setItem('bb_liked', JSON.stringify(likedPosts));
+    const post = bbPosts.find(function(p){ return p.id == postId; });
+    if (post) post.likes = newLikes;
+    const btn = document.querySelector('#post-' + postId + ' .bb-like-btn');
+    if (btn) {
+      btn.className = 'bb-like-btn' + (!isLiked ? ' liked' : '');
+      btn.innerHTML = '❤️ ' + newLikes;
+      btn.setAttribute('onclick', 'bbToggleLike(\'' + postId + '\',' + newLikes + ',' + !isLiked + ')');
+    }
+  } catch (e) { alert('エラー: ' + e.message); }
+}
+
+async function bbToggleReplies(postId) {
+  const div = document.getElementById('replies-' + postId);
+  if (div.style.display !== 'none') { div.style.display = 'none'; return; }
+  div.style.display = 'block';
+  await bbLoadReplies(postId);
+}
+
+async function bbLoadReplies(postId) {
+  const content = document.getElementById('replies-content-' + postId);
+  content.innerHTML = '読み込み中...';
+  try {
+    const { data, error } = await sbClient.from('replies').select('*').eq('post_id', postId).order('created_at', { ascending: true });
+    if (error) throw error;
+    const replies = data || [];
+    if (replies.length === 0) {
+      content.innerHTML = '<div style="color:var(--text2);font-size:0.82rem;margin-bottom:8px;">まだ返信はありません。</div>';
+    } else {
+      content.innerHTML = replies.map(function(r){
+        return '<div class="bb-reply">'
+          + '<div class="bb-reply-meta"><span class="bb-reply-nickname">👤 ' + bbEscape(r.nickname) + '</span><span class="bb-time">' + bbFormatTime(r.created_at) + '</span></div>'
+          + '<div class="bb-reply-content">' + bbEscape(r.content) + '</div>'
+          + '</div>';
+      }).join('');
+    }
+  } catch (e) {
+    content.innerHTML = '<div style="color:#f43f5e;font-size:0.82rem;">取得に失敗しました</div>';
+  }
+}
+
+async function bbSubmitReply(postId) {
+  const input = document.getElementById('reply-input-' + postId);
+  const nickname = document.getElementById('bb-nickname').value.trim() || '匿名';
+  const content = input.value.trim();
+  if (!content) return;
+  try {
+    const { error } = await sbClient.from('replies').insert({ post_id: postId, nickname, content });
+    if (error) throw error;
+    input.value = '';
+    await bbLoadReplies(postId);
+  } catch (e) { alert('返信に失敗しました: ' + e.message); }
+}
+
+function bbSetFilter(filter, btn) {
+  bbFilter = filter;
+  document.querySelectorAll('.bb-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  bbRender();
+}
+
+function bbSubscribeRealtime() {
+  if (bbRealtime) return;
+  bbRealtime = sbClient.channel('board-changes')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, function(payload){
+      bbPosts.unshift(payload.new);
+      bbRender();
+    })
+    .subscribe();
+}
 </script>
 </body>
 </html>
