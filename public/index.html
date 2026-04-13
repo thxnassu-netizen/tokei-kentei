@@ -173,55 +173,14 @@
   .term-item.open .chevron { transform: rotate(180deg); }
 
   /* ===== STUDY ===== */
-  /* Chapter navigation bar */
-  .ch-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-  .ch-nav-btn {
-    flex: 1; min-width: 52px; padding: 8px 4px; border-radius: 10px; border: 2px solid var(--border);
-    background: white; cursor: pointer; font-size: 0.78rem; font-weight: 700;
-    text-align: center; transition: all 0.2s; font-family: inherit;
-    -webkit-tap-highlight-color: transparent; position: relative;
-  }
-  .ch-nav-btn .ch-num { display: block; font-size: 0.95rem; color: var(--primary); }
-  .ch-nav-btn .ch-prog { display: block; font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
-  .ch-nav-btn.active { background: var(--primary); border-color: var(--primary); }
-  .ch-nav-btn.active .ch-num { color: white; }
-  .ch-nav-btn.active .ch-prog { color: rgba(255,255,255,0.75); }
-  .ch-nav-btn .ch-done { position: absolute; top: -4px; right: -4px; background: var(--accent); color: white; font-size: 0.55rem; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
-
-  /* Breadcrumb */
-  .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-  .breadcrumb span { color: var(--primary); font-weight: 600; }
-  .breadcrumb .sep { opacity: 0.5; }
-
-  /* Chapter overview */
-  .ch-overview-title { font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
-  .ch-overview-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
-  .section-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-  .section-list-item {
-    display: flex; align-items: center; gap: 10px; padding: 12px 14px;
-    background: white; border-radius: 12px; border: 2px solid var(--border);
-    cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent;
-  }
-  .section-list-item:hover { border-color: var(--accent); background: #f0fdf4; }
-  .section-list-item .sec-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; transition: all 0.2s; }
-  .section-list-item.done .sec-check { background: var(--accent); border-color: var(--accent); color: white; }
-  .section-list-item .sec-label { font-size: 0.9rem; font-weight: 600; color: var(--text); flex: 1; line-height: 1.4; }
-  .section-list-item .sec-arrow { color: var(--muted); font-size: 0.85rem; }
-
-  /* Section content page */
-  .section-header { margin-bottom: 14px; }
-  .section-title-main { font-size: 1.1rem; font-weight: 800; color: var(--primary); line-height: 1.4; margin-bottom: 4px; }
-  .section-body { font-size: 0.95rem; line-height: 1.85; color: #334155; margin-bottom: 12px; }
-  .formula-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-family: monospace; font-size: 0.95rem; margin: 8px 0; color: var(--primary); overflow-x: auto; }
-
-  /* Prev/Next nav */
-  .section-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
-  .section-nav .nav-center { text-align: center; font-size: 0.8rem; color: var(--muted); }
-  .mark-read-btn { display: block; width: 100%; padding: 13px; border-radius: 12px; border: 2px solid var(--accent); background: white; color: var(--accent); font-weight: 700; font-size: 0.95rem; cursor: pointer; margin-top: 16px; text-align: center; transition: all 0.2s; font-family: inherit; -webkit-tap-highlight-color: transparent; }
-  .mark-read-btn.done { background: var(--accent); color: white; }
-
-  /* Legacy compat */
+  .chapter-section { margin-bottom: 10px; border-radius: 12px; overflow: hidden; }
+  .chapter-section summary { cursor: pointer; font-weight: 700; padding: 14px 16px; background: #f0fdf4; border-radius: 12px; font-size: 1rem; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--primary); }
+  .chapter-section summary::after { content: '▼'; font-size: 0.75rem; }
+  details[open] > summary::after { content: '▲'; }
+  .chapter-body { padding: 14px 16px; font-size: 0.95rem; line-height: 1.85; color: #334155; }
+  .chapter-article { margin-bottom: 12px; border-left: 3px solid var(--accent); padding-left: 12px; }
   .chapter-article h4 { font-size: 0.9rem; color: var(--primary); margin-bottom: 6px; font-weight: 700; }
+  .formula-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-family: monospace; font-size: 0.95rem; margin: 8px 0; color: var(--primary); overflow-x: auto; }
 
   /* ===== STUDY BOXES ===== */
   .study-box { border-radius: 12px; padding: 14px 16px; margin: 10px 0; font-size: 0.93rem; line-height: 1.75; }
@@ -407,12 +366,8 @@
 
   <!-- STUDY TAB -->
   <div class="tab-content" id="tab-study">
-    <!-- Chapter navigation buttons -->
-    <div class="ch-nav" id="chNav"></div>
-    <!-- Breadcrumb -->
-    <div class="breadcrumb" id="studyBreadcrumb"></div>
-    <!-- Dynamic content area -->
-    <div class="card" id="studyContent"></div>
+    <div class="info-banner">📚 数学が苦手でも大丈夫！身近な例と図解で、統計を基礎からていねいに解説します。各章をタップして開いてください。</div>
+    <div id="studyContent"></div>
   </div>
 
   <!-- BBS TAB -->
@@ -1135,7 +1090,6 @@ function switchTab(name, btn) {
   document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
   if (name === 'home') renderHomeStats();
-  if (name === 'study') { renderChapterNav(); renderStudyPage(); }
 }
 
 // =====================================================================
@@ -1360,217 +1314,58 @@ function filterGlossary() { renderGlossary(); }
 // =====================================================================
 // STUDY
 // =====================================================================
-let _studyChapterIdx = 0;  // current chapter (0-based)
-let _studySectionIdx = -1; // current section (-1 = overview)
-
+let _studyCheckIdx = 0;
 function initStudy() {
-  _studyChapterIdx = 0;
-  _studySectionIdx = -1;
-  renderChapterNav();
-  renderStudyPage();
-}
-
-// ---- Progress helpers ----
-function getReadSections() {
-  return store.get('readSections', {});
-}
-function sectionKey(ci, si) { return ci + '_' + si; }
-function isRead(ci, si) { return !!getReadSections()[sectionKey(ci, si)]; }
-function markRead(ci, si) {
-  const rs = getReadSections();
-  rs[sectionKey(ci, si)] = true;
-  store.set('readSections', rs);
-}
-function chapterProgress(ci) {
-  const total = CHAPTERS[ci].articles.length;
-  let done = 0;
-  for (let si = 0; si < total; si++) { if (isRead(ci, si)) done++; }
-  return { done, total };
-}
-
-// ---- Chapter nav ----
-function renderChapterNav() {
-  const nav = document.getElementById('chNav');
-  nav.innerHTML = CHAPTERS.map((ch, ci) => {
-    const { done, total } = chapterProgress(ci);
-    const allDone = done === total;
-    return `<button class="ch-nav-btn${ci === _studyChapterIdx ? ' active' : ''}" onclick="selectChapter(${ci})">
-      ${allDone ? '<span class="ch-done">✓</span>' : ''}
-      <span class="ch-num">第${ci+1}章</span>
-      <span class="ch-prog">${done}/${total}</span>
-    </button>`;
-  }).join('');
-}
-
-// ---- Breadcrumb ----
-function renderBreadcrumb() {
-  const bc = document.getElementById('studyBreadcrumb');
-  const ch = CHAPTERS[_studyChapterIdx];
-  if (_studySectionIdx < 0) {
-    bc.innerHTML = `<span>${ch.title}</span>`;
-  } else {
-    const sec = ch.articles[_studySectionIdx];
-    bc.innerHTML = `<span style="cursor:pointer;text-decoration:underline;" onclick="selectChapter(${_studyChapterIdx})">${ch.title}</span>
-      <span class="sep">›</span>
-      <span>${sec.h}</span>`;
-  }
-}
-
-// ---- Chapter overview ----
-function renderChapterOverview() {
-  const ch = CHAPTERS[_studyChapterIdx];
-  const ci = _studyChapterIdx;
-  const { done, total } = chapterProgress(ci);
-  const pct = total ? Math.round(done/total*100) : 0;
-
-  const listItems = ch.articles.map((a, si) => {
-    const read = isRead(ci, si);
-    return `<div class="section-list-item${read ? ' done' : ''}" onclick="selectSection(${si})">
-      <div class="sec-check">${read ? '✓' : ''}</div>
-      <div class="sec-label">${a.h}</div>
-      <div class="sec-arrow">›</div>
-    </div>`;
-  }).join('');
-
-  document.getElementById('studyContent').innerHTML = `
-    <div class="ch-overview-title">${ch.title}</div>
-    <div class="ch-overview-sub">この章では ${total} つの節を学習します。</div>
-    <div class="progress-bar-wrap">
-      <div class="progress-bar" style="width:${pct}%"></div>
-    </div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">${done}/${total} 節 完了（${pct}%）</div>
-    <div class="section-list">${listItems}</div>
-    ${done < total ? `<button class="btn btn-primary" style="width:100%;" onclick="selectSection(${firstUnread(ci)})">
-      ${done === 0 ? '📖 学習を始める' : '▶ 続きから読む'}
-    </button>` : `<div style="text-align:center;color:var(--accent);font-weight:700;padding:12px;">🎉 この章は全て完了！</div>`}
-  `;
-}
-
-function firstUnread(ci) {
-  const total = CHAPTERS[ci].articles.length;
-  for (let si = 0; si < total; si++) { if (!isRead(ci, si)) return si; }
-  return 0;
-}
-
-// ---- Section content ----
-function renderSection() {
-  const ci = _studyChapterIdx;
-  const si = _studySectionIdx;
-  const a = CHAPTERS[ci].articles[si];
-  const totalSections = CHAPTERS[ci].articles.length;
-  const totalChapters = CHAPTERS.length;
-  const read = isRead(ci, si);
-  const cid = 'cq_' + ci + '_' + si;
-
-  // Prev / Next targets
-  let prevLabel = '', prevAction = '';
-  let nextLabel = '', nextAction = '';
-  if (si > 0) {
-    prevLabel = '← ' + CHAPTERS[ci].articles[si-1].h.split(' ')[0];
-    prevAction = `selectSection(${si-1})`;
-  } else if (ci > 0) {
-    prevLabel = '← 前の章';
-    prevAction = `selectChapter(${ci-1})`;
-  }
-  if (si < totalSections - 1) {
-    nextLabel = CHAPTERS[ci].articles[si+1].h.split(' ')[0] + ' →';
-    nextAction = `selectSection(${si+1})`;
-  } else if (ci < totalChapters - 1) {
-    nextLabel = '次の章 →';
-    nextAction = `selectChapter(${ci+1})`;
-  }
-
-  document.getElementById('studyContent').innerHTML = `
-    <div class="section-header">
-      <div class="section-title-main">${a.h}</div>
-      <div style="font-size:0.8rem;color:var(--muted);">節 ${si+1}/${totalSections}</div>
-    </div>
-    <div class="section-body">${a.body}</div>
-    ${a.formula ? `<div class="formula-box">${a.formula}</div>` : ''}
-    ${a.points ? `
-      <div class="study-box point-box">
-        <div class="box-title">📌 ポイント</div>
-        <ul>${a.points.map(p => `<li>${p}</li>`).join('')}</ul>
-      </div>` : ''}
-    ${a.example ? `
-      <div class="study-box example-box">
-        <div class="box-title">📊 具体例</div>
-        <div>${a.example}</div>
-      </div>` : ''}
-    ${a.misconception ? `
-      <div class="study-box misconception-box">
-        <div class="box-title">⚠️ よくある誤解</div>
-        <div>${a.misconception}</div>
-      </div>` : ''}
-    ${a.teacherComment ? `
-      <div class="teacher-comment-box">
-        <div class="teacher-icon">👩‍🏫</div>
-        <div>
-          <div class="teacher-name">統子先生のひとこと</div>
-          <div class="teacher-text">${a.teacherComment}</div>
-        </div>
-      </div>` : ''}
-    ${a.checkQuestion ? `
-      <div class="check-q-box">
-        <div class="box-title">✏️ 理解度チェック</div>
-        <div style="font-size:0.93rem;line-height:1.75;">${a.checkQuestion.q}</div>
-        <button class="check-q-toggle" onclick="toggleStudyAnswer('${cid}',this)">答えを見る</button>
-        <div class="check-q-answer" id="${cid}">
-          <strong>${a.checkQuestion.ans}</strong><br>
-          <span style="color:var(--muted);font-size:0.88rem;">${a.checkQuestion.exp}</span>
-        </div>
-      </div>` : ''}
-    <button class="mark-read-btn${read ? ' done' : ''}" id="markReadBtn" onclick="toggleMarkRead()">
-      ${read ? '✓ 読了済み' : '✓ 読了にする'}
-    </button>
-    <div class="section-nav">
-      <div>${prevAction ? `<button class="btn btn-secondary" style="font-size:0.82rem;padding:10px 12px;min-height:44px;" onclick="${prevAction}">${prevLabel}</button>` : ''}</div>
-      <div class="nav-center">${si+1} / ${totalSections}</div>
-      <div>${nextAction ? `<button class="btn btn-primary" style="font-size:0.82rem;padding:10px 12px;min-height:44px;" onclick="${nextAction}">${nextLabel}</button>` : ''}</div>
-    </div>
-  `;
-}
-
-// ---- Navigation actions ----
-function selectChapter(ci) {
-  _studyChapterIdx = ci;
-  _studySectionIdx = -1;
-  renderChapterNav();
-  renderBreadcrumb();
-  renderChapterOverview();
-  document.getElementById('tab-study').scrollTop = 0;
-  window.scrollTo(0, 0);
-}
-
-function selectSection(si) {
-  _studySectionIdx = si;
-  renderBreadcrumb();
-  renderSection();
-  window.scrollTo(0, 0);
-}
-
-function renderStudyPage() {
-  renderBreadcrumb();
-  if (_studySectionIdx < 0) {
-    renderChapterOverview();
-  } else {
-    renderSection();
-  }
-}
-
-function toggleMarkRead() {
-  const ci = _studyChapterIdx;
-  const si = _studySectionIdx;
-  const rs = getReadSections();
-  const key = sectionKey(ci, si);
-  if (rs[key]) {
-    delete rs[key];
-  } else {
-    rs[key] = true;
-  }
-  store.set('readSections', rs);
-  renderChapterNav();
-  renderSection();
+  _studyCheckIdx = 0;
+  const container = document.getElementById('studyContent');
+  container.innerHTML = CHAPTERS.map(ch => `
+    <details class="chapter-section" style="margin-bottom:12px;">
+      <summary>${ch.title}</summary>
+      <div class="chapter-body">
+        ${ch.articles.map(a => {
+          const cid = 'cq' + (_studyCheckIdx++);
+          return `
+          <div class="chapter-article">
+            <h4>${a.h}</h4>
+            <p>${a.body}</p>
+            ${a.formula ? `<div class="formula-box">${a.formula}</div>` : ''}
+            ${a.points ? `
+              <div class="study-box point-box">
+                <div class="box-title">📌 ポイント</div>
+                <ul>${a.points.map(p => `<li>${p}</li>`).join('')}</ul>
+              </div>` : ''}
+            ${a.example ? `
+              <div class="study-box example-box">
+                <div class="box-title">📊 具体例</div>
+                <div>${a.example}</div>
+              </div>` : ''}
+            ${a.misconception ? `
+              <div class="study-box misconception-box">
+                <div class="box-title">⚠️ よくある誤解</div>
+                <div>${a.misconception}</div>
+              </div>` : ''}
+            ${a.teacherComment ? `
+              <div class="teacher-comment-box">
+                <div class="teacher-icon">👩‍🏫</div>
+                <div>
+                  <div class="teacher-name">統子先生のひとこと</div>
+                  <div class="teacher-text">${a.teacherComment}</div>
+                </div>
+              </div>` : ''}
+            ${a.checkQuestion ? `
+              <div class="check-q-box">
+                <div class="box-title">✏️ 理解度チェック</div>
+                <div style="font-size:0.93rem;line-height:1.75;">${a.checkQuestion.q}</div>
+                <button class="check-q-toggle" onclick="toggleStudyAnswer('${cid}',this)">答えを見る</button>
+                <div class="check-q-answer" id="${cid}">
+                  <strong>${a.checkQuestion.ans}</strong><br>
+                  <span style="color:var(--muted);font-size:0.88rem;">${a.checkQuestion.exp}</span>
+                </div>
+              </div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+    </details>`).join('');
 }
 
 function toggleStudyAnswer(id, btn) {
