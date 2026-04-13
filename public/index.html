@@ -112,7 +112,8 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .chapter-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
 .chapter-card:active { transform: translateY(0); }
 .ch-accent-bar { width: 4px; border-radius: 4px; align-self: stretch; flex-shrink: 0; }
-.ch-icon-wrap { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.ch-icon-wrap { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 10px; }
+.ch-icon-wrap svg { width: 22px; height: 22px; flex-shrink: 0; }
 .ch-info { flex: 1; min-width: 0; }
 .ch-num { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text2); margin-bottom: 2px; }
 .ch-title { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -131,7 +132,8 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 }
 .ch-hero-bg { position: absolute; inset: 0; opacity: 0.15; }
 .ch-hero-content { position: relative; z-index: 1; }
-.ch-hero-icon { font-size: 48px; margin-bottom: 8px; }
+.ch-hero-icon { width: 56px; height: 56px; margin-bottom: 12px; }
+.ch-hero-icon svg { width: 56px; height: 56px; }
 .ch-hero-num { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
 .ch-hero-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
 .ch-hero-desc { font-size: 13px; opacity: 0.8; line-height: 1.5; }
@@ -620,11 +622,11 @@ strong { color: #e2e8f0; }
 <script>
 // ===================== DATA =====================
 const CH_META = [
-  { icon:'📊', color:'#3b82f6', light:'#60a5fa', desc:'データの分類・代表値・散布度' },
-  { icon:'🎲', color:'#8b5cf6', light:'#a78bfa', desc:'確率の計算と主要な確率分布' },
-  { icon:'📐', color:'#14b8a6', light:'#2dd4bf', desc:'標本から母集団を推測する方法' },
-  { icon:'🔬', color:'#f59e0b', light:'#fbbf24', desc:'仮説の正否を統計で検証する' },
-  { icon:'📈', color:'#f43f5e', light:'#fb7185', desc:'変数間の関係を数式で捉える' },
+  { icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="13" width="4" height="8" rx="0.5"/><rect x="10" y="8" width="4" height="13" rx="0.5"/><rect x="17" y="4" width="4" height="17" rx="0.5"/><line x1="2" y1="21" x2="22" y2="21"/></svg>', color:'#3b82f6', light:'#60a5fa', desc:'データの分類・代表値・散布度' },
+  { icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/><line x1="19" y1="5" x2="5" y2="19"/></svg>', color:'#8b5cf6', light:'#a78bfa', desc:'確率の計算と主要な確率分布' },
+  { icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>', color:'#14b8a6', light:'#2dd4bf', desc:'標本から母集団を推測する方法' },
+  { icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="7"/><line x1="21" y1="21" x2="15.8" y2="15.8"/><polyline points="7.5 10.5 9.5 12.5 13.5 8.5"/></svg>', color:'#f59e0b', light:'#fbbf24', desc:'仮説の正否を統計で検証する' },
+  { icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="20" x2="20" y2="4"/><circle cx="6" cy="18" r="1.5" fill="currentColor" stroke="none"/><circle cx="10" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.5" fill="currentColor" stroke="none"/><circle cx="18" cy="6" r="1.5" fill="currentColor" stroke="none"/></svg>', color:'#f43f5e', light:'#fb7185', desc:'変数間の関係を数式で捉える' },
 ];
 
 const QUESTIONS = [
@@ -1178,7 +1180,7 @@ function renderHome() {
     var offset=circ*(1-prog);
     html+='<div class="chapter-card" onclick="goChapter('+ci+')">';
     html+='<div class="ch-accent-bar" style="background:'+m.color+';min-height:60px"></div>';
-    html+='<div class="ch-icon-wrap" style="background:'+m.color+'22">'+m.icon+'</div>';
+    html+='<div class="ch-icon-wrap" style="background:'+m.color+'22;color:'+m.color+'">'+m.icon+'</div>';
     html+='<div class="ch-info">';
     html+='<div class="ch-num">第'+(ci+1)+'章</div>';
     html+='<div class="ch-title">'+ch.title.replace('第'+(ci+1)+'章 ','')+'</div>';
@@ -1206,7 +1208,7 @@ function renderChapter() {
   var hero=document.getElementById('ch-hero');
   hero.innerHTML='<div class="ch-hero" style="background:linear-gradient(135deg,'+m.color+'33,'+m.color+'11)">'
     +'<div class="ch-hero-content">'
-    +'<div class="ch-hero-icon">'+m.icon+'</div>'
+    +'<div class="ch-hero-icon" style="color:rgba(255,255,255,0.9)">'+m.icon+'</div>'
     +'<div class="ch-hero-num">第'+(ci+1)+'章</div>'
     +'<div class="ch-hero-title">'+ch.title.replace('第'+(ci+1)+'章 ','')+'</div>'
     +'<div class="ch-hero-desc">'+m.desc+'</div>'
