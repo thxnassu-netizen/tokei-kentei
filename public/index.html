@@ -54,9 +54,9 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   font-size: 10px; font-family: inherit; cursor: pointer;
   transition: color 0.2s; gap: 3px;
 }
-.nav-btn .nav-icon { font-size: 20px; line-height: 1; transition: transform 0.2s; }
+.nav-btn .nav-icon { width: 22px; height: 22px; transition: transform 0.2s; display: block; }
 .nav-btn.active { color: var(--accent2); }
-.nav-btn.active .nav-icon { transform: scale(1.15); }
+.nav-btn.active .nav-icon { transform: scale(1.12); }
 
 /* Page animations */
 .page { display: none; min-height: 100%; }
@@ -83,13 +83,6 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 }
 .app-logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
 .app-logo span { color: var(--accent2); }
-.streak-badge {
-  background: linear-gradient(135deg, #f59e0b, #f97316);
-  color: #fff; font-size: 12px; font-weight: 700;
-  padding: 4px 10px; border-radius: 20px;
-  display: flex; align-items: center; gap: 4px;
-  box-shadow: 0 2px 8px rgba(245,158,11,0.4);
-}
 
 /* Hero section */
 .hero { padding: 24px 20px 16px; }
@@ -465,8 +458,7 @@ strong { color: #e2e8f0; }
     <!-- pg-home -->
     <div class="page" id="pg-home">
       <div class="app-header">
-        <div class="app-logo">統計<span>2級</span></div>
-        <div class="streak-badge">🔥 <span id="streak-num">7</span>日</div>
+        <div class="app-logo">統計検定<span>2級</span></div>
       </div>
       <div class="hero">
         <div class="hero-text">統計の力で、<br><span>未来を切り拓こう</span></div>
@@ -512,7 +504,7 @@ strong { color: #e2e8f0; }
     <!-- pg-quiz -->
     <div class="page" id="pg-quiz">
       <div class="pg-title-header">
-        <div class="pg-title">📝 問題集</div>
+        <div class="pg-title">問題集</div>
         <div class="pg-subtitle">知識を問題で確かめよう</div>
       </div>
       <div class="quiz-wrap">
@@ -528,7 +520,7 @@ strong { color: #e2e8f0; }
     <!-- pg-glossary -->
     <div class="page" id="pg-glossary">
       <div class="pg-title-header">
-        <div class="pg-title">📖 用語集</div>
+        <div class="pg-title">用語集</div>
         <div class="pg-subtitle">統計の重要キーワードを確認</div>
       </div>
       <div class="search-wrap">
@@ -543,7 +535,7 @@ strong { color: #e2e8f0; }
     <!-- pg-ai -->
     <div class="page" id="pg-ai">
       <div class="pg-title-header">
-        <div class="pg-title">🤖 AI質問</div>
+        <div class="pg-title">AI質問</div>
         <div class="pg-subtitle">わからないことを何でも聞こう</div>
       </div>
       <div class="chat-area" id="chat-area"></div>
@@ -553,12 +545,11 @@ strong { color: #e2e8f0; }
         <button class="chat-send" onclick="sendChat()">➤</button>
       </div>
     </div>
-  </div>
 
     <!-- pg-board -->
     <div class="page" id="pg-board">
       <div class="pg-title-header">
-        <div class="pg-title">💬 みんなの掲示板</div>
+        <div class="pg-title">掲示板</div>
         <div class="pg-subtitle">疑問・情報をシェアして一緒に合格を目指そう</div>
       </div>
 
@@ -592,23 +583,37 @@ strong { color: #e2e8f0; }
         <div class="bb-loading">読み込み中...</div>
       </div>
     </div>
+  </div><!-- /content -->
 
   <!-- Bottom Nav -->
   <nav id="bottom-nav">
     <button class="nav-btn active" id="nb-course" onclick="navTab('course')">
-      <span class="nav-icon">📚</span>コース
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+      </svg>コース
     </button>
     <button class="nav-btn" id="nb-quiz" onclick="navTab('quiz')">
-      <span class="nav-icon">📝</span>問題集
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+        <rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/>
+      </svg>問題集
     </button>
     <button class="nav-btn" id="nb-glossary" onclick="navTab('glossary')">
-      <span class="nav-icon">📖</span>用語集
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+      </svg>用語集
     </button>
     <button class="nav-btn" id="nb-ai" onclick="navTab('ai')">
-      <span class="nav-icon">🤖</span>AI質問
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+      </svg>AI質問
     </button>
     <button class="nav-btn" id="nb-board" onclick="navTab('board')">
-      <span class="nav-icon">💬</span>掲示板
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2v-1"/>
+        <path d="M15 3H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l4-4h4a2 2 0 002-2V5a2 2 0 00-2-2z"/>
+      </svg>掲示板
     </button>
   </nav>
 </div>
@@ -1248,38 +1253,38 @@ function renderLesson() {
   html+='<div class="lesson-text">'+a.body+'</div>';
   if(a.formula) {
     html+='<div class="block block-formula">';
-    html+='<div class="block-formula-label">📐 公式</div>';
+    html+='<div class="block-formula-label">FORMULA</div>';
     html+='<div class="block-formula-text">'+a.formula+'</div>';
     html+='</div>';
   }
   if(a.points && a.points.length) {
     html+='<div class="block block-points">';
-    html+='<div class="block-points-label">✓ ポイント</div>';
+    html+='<div class="block-points-label">KEY POINTS</div>';
     html+='<ul>';
     a.points.forEach(function(pt){ html+='<li>'+pt+'</li>'; });
     html+='</ul></div>';
   }
   if(a.example) {
     html+='<div class="block block-example">';
-    html+='<div class="block-example-label">📊 例題・具体例</div>';
+    html+='<div class="block-example-label">EXAMPLE</div>';
     html+='<div class="block-example-text">'+a.example+'</div>';
     html+='</div>';
   }
   if(a.misconception) {
     html+='<div class="block block-misconception">';
-    html+='<div class="block-misconception-label">⚠ よくある誤解</div>';
+    html+='<div class="block-misconception-label">WATCH OUT</div>';
     html+='<div class="block-misconception-text">'+a.misconception+'</div>';
     html+='</div>';
   }
   if(a.teacherComment) {
     html+='<div class="block block-teacher">';
-    html+='<div class="block-teacher-label">💡 先生のコメント</div>';
+    html+='<div class="block-teacher-label">INSIGHT</div>';
     html+='<div class="block-teacher-text">'+a.teacherComment+'</div>';
     html+='</div>';
   }
   if(a.checkQuestion) {
     html+='<div class="block-check">';
-    html+='<div class="block-check-label">🎯 確認問題</div>';
+    html+='<div class="block-check-label">CHECK</div>';
     html+='<div class="block-check-q">'+a.checkQuestion.q+'</div>';
     html+='<button class="reveal-btn" onclick="revealAnswer(this)">答えを見る</button>';
     html+='<div class="check-answer" id="check-ans">';
