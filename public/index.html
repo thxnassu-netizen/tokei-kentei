@@ -453,80 +453,6 @@ strong { color: #e2e8f0; }
 .bb-reply-input:focus { border-color: var(--accent); }
 .bb-loading, .bb-empty { text-align: center; color: var(--text2); padding: 32px 20px; font-size: 0.9rem; }
 
-/* ===== SLIDE CARDS ===== */
-.slide-cards-wrap {
-  padding: 0 16px 4px;
-}
-.slide-cards-label {
-  font-size: 11px; font-weight: 700; color: var(--text2);
-  letter-spacing: 1.2px; text-transform: uppercase;
-  padding: 12px 0 10px;
-}
-.slide-card {
-  background: var(--surface);
-  border-radius: 18px;
-  border: 1px solid var(--border);
-  margin-bottom: 14px;
-  overflow: hidden;
-}
-.slide-card-header {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 18px 18px 16px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(255,255,255,0.02);
-}
-.slide-card-num {
-  width: 32px; height: 32px; border-radius: 10px;
-  font-size: 14px; font-weight: 800; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 1px;
-}
-.slide-card-title {
-  font-size: 18px; font-weight: 700; line-height: 1.4;
-  letter-spacing: -0.2px;
-}
-.slide-card-body {
-  padding: 20px 20px 8px;
-  font-size: 16px; line-height: 1.8; color: var(--text);
-}
-.slide-card-formula {
-  margin: 10px 18px 16px;
-  background: rgba(99,102,241,0.1);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 12px 12px 0;
-  padding: 14px 16px;
-}
-.slide-card-formula-label {
-  font-size: 10px; font-weight: 800; letter-spacing: 1.2px;
-  text-transform: uppercase; color: var(--accent2);
-  margin-bottom: 8px; opacity: 0.8;
-}
-.slide-card-formula-text {
-  font-size: 15px; color: var(--accent2); line-height: 1.75;
-}
-.slide-card-points {
-  margin: 0 18px 20px;
-  padding: 16px 18px;
-  background: rgba(16,185,129,0.07);
-  border-radius: 14px;
-  border: 1px solid rgba(16,185,129,0.15);
-}
-.slide-card-points-label {
-  font-size: 10px; font-weight: 800; letter-spacing: 1.2px;
-  text-transform: uppercase; color: var(--success);
-  margin-bottom: 10px;
-}
-.slide-card-points ul {
-  list-style: none; margin: 0; padding: 0;
-}
-.slide-card-points li {
-  font-size: 15px; line-height: 1.7; color: var(--text);
-  padding: 5px 0 5px 20px; position: relative;
-}
-.slide-card-points li::before {
-  content: '▸'; position: absolute; left: 0;
-  color: var(--success); font-size: 12px; top: 7px;
-}
 </style>
 </head>
 <body>
@@ -553,12 +479,6 @@ strong { color: #e2e8f0; }
     <div class="page" id="pg-chapter">
       <div class="back-row">
         <button class="back-link" onclick="goHome()">← コース一覧</button>
-      </div>
-
-      <!-- Slide Cards -->
-      <div class="slide-cards-wrap">
-        <div class="slide-cards-label">LESSON OVERVIEW</div>
-        <div id="slide-cards"></div>
       </div>
 
       <div id="ch-hero"></div>
@@ -1319,8 +1239,6 @@ function renderChapter() {
   if(p.d===0) btn.textContent='学習を始める →';
   else if(p.d<p.t) btn.textContent='続きから読む →';
   else btn.textContent='もう一度見直す →';
-  // slide cards
-  renderSlideCards(ci);
 }
 
 // ===================== RENDER LESSON =====================
@@ -1667,43 +1585,6 @@ function quickAsk(q) {
   sendChat();
 }
 
-// ===================== SLIDE CARDS =====================
-function renderSlideCards(ci) {
-  var ch = CHAPTERS[ci];
-  var m = CH_META[ci];
-  var wrap = document.getElementById('slide-cards');
-  if (!wrap) return;
-
-  var color = m.color;
-  var html = '';
-
-  // One card per article
-  ch.articles.forEach(function(a, si) {
-    html += '<div class="slide-card">';
-    html += '<div class="slide-card-header">';
-    html += '<div class="slide-card-num" style="background:' + color + '">' + (si+1) + '</div>';
-    html += '<div class="slide-card-title">' + a.h + '</div>';
-    html += '</div>';
-    html += '<div class="slide-card-body">' + a.body + '</div>';
-    if (a.formula) {
-      html += '<div class="slide-card-formula">';
-      html += '<div class="slide-card-formula-label">FORMULA</div>';
-      html += '<div class="slide-card-formula-text">' + a.formula + '</div>';
-      html += '</div>';
-    }
-    if (a.points && a.points.length) {
-      var pts = a.points.slice(0, 5);
-      html += '<div class="slide-card-points">';
-      html += '<div class="slide-card-points-label">KEY POINTS</div>';
-      html += '<ul>';
-      pts.forEach(function(pt) { html += '<li>' + pt + '</li>'; });
-      html += '</ul></div>';
-    }
-    html += '</div>';
-  });
-
-  wrap.innerHTML = html;
-}
 
 // ===================== INIT =====================
 document.addEventListener('DOMContentLoaded', function() {
