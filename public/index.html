@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root {
   --bg: #0f172a;
@@ -454,142 +453,109 @@ strong { color: #e2e8f0; }
 .bb-reply-input:focus { border-color: var(--accent); }
 .bb-loading, .bb-empty { text-align: center; color: var(--text2); padding: 32px 20px; font-size: 0.9rem; }
 
-/* ===== SLIDE VIEWER ===== */
-.slide-viewer {
-  margin: 0 16px 20px;
+/* ===== SLIDE CARDS ===== */
+.slide-cards-wrap {
+  padding: 0 16px 4px;
+}
+.slide-cards-label {
+  font-size: 11px; font-weight: 700; color: var(--text2);
+  letter-spacing: 1.2px; text-transform: uppercase;
+  padding: 12px 0 10px;
+}
+.slide-intro-card {
+  border-radius: 18px; overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+.slide-intro-inner {
+  padding: 28px 20px 20px; text-align: center;
+}
+.slide-intro-icon {
+  width: 64px; height: 64px; border-radius: 20px;
+  margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.slide-intro-icon svg { width: 36px; height: 36px; }
+.slide-intro-chapter {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; opacity: 0.8; margin-bottom: 6px;
+}
+.slide-intro-title {
+  font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+  margin-bottom: 10px; line-height: 1.3;
+}
+.slide-intro-desc {
+  font-size: 16px; color: var(--text2); line-height: 1.6;
+}
+.slide-intro-svg {
+  padding: 4px 16px 20px;
+  display: flex; justify-content: center;
+}
+.slide-card {
   background: var(--surface);
   border-radius: 18px;
   border: 1px solid var(--border);
+  margin-bottom: 14px;
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
 }
-.slide-viewer-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 13px 16px 11px;
-  background: rgba(99,102,241,0.06);
+.slide-card-header {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 18px 18px 16px;
   border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
 }
-.slide-viewer-label {
-  display: flex; align-items: center; gap: 7px;
-  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+.slide-card-num {
+  width: 32px; height: 32px; border-radius: 10px;
+  font-size: 14px; font-weight: 800; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.slide-card-title {
+  font-size: 18px; font-weight: 700; line-height: 1.4;
+  letter-spacing: -0.2px;
+}
+.slide-card-body {
+  padding: 20px 20px 8px;
+  font-size: 16px; line-height: 1.8; color: var(--text);
+}
+.slide-card-formula {
+  margin: 10px 18px 16px;
+  background: rgba(99,102,241,0.1);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 16px;
+}
+.slide-card-formula-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.2px;
   text-transform: uppercase; color: var(--accent2);
+  margin-bottom: 8px; opacity: 0.8;
 }
-.slide-viewer-label svg { opacity: 0.85; }
-.slide-page-badge {
-  font-size: 11px; font-weight: 700; color: var(--text2);
-  background: var(--surface2); border-radius: 20px;
-  padding: 3px 10px; border: 1px solid var(--border);
+.slide-card-formula-text {
+  font-size: 15px; color: var(--accent2); line-height: 1.75;
 }
-.slide-canvas-wrap {
-  position: relative;
-  background: #0d1117;
-  display: flex; align-items: center; justify-content: center;
-  min-height: 160px; cursor: pointer;
+.slide-card-points {
+  margin: 0 18px 20px;
+  padding: 16px 18px;
+  background: rgba(16,185,129,0.07);
+  border-radius: 14px;
+  border: 1px solid rgba(16,185,129,0.15);
 }
-.slide-canvas-wrap canvas { display: block; max-width: 100%; transition: opacity 0.25s; }
-.slide-loading-state {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 10px; color: var(--text2); font-size: 13px;
+.slide-card-points-label {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--success);
+  margin-bottom: 10px;
 }
-.slide-spinner {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 2.5px solid var(--border);
-  border-top-color: var(--accent2);
-  animation: spin 0.8s linear infinite;
+.slide-card-points ul {
+  list-style: none; margin: 0; padding: 0;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
-.slide-controls {
-  display: flex; align-items: center; padding: 10px 14px; gap: 10px;
-  border-top: 1px solid var(--border);
-  background: rgba(15,23,42,0.4);
+.slide-card-points li {
+  font-size: 15px; line-height: 1.7; color: var(--text);
+  padding: 5px 0 5px 20px; position: relative;
 }
-.slide-arrow {
-  width: 34px; height: 34px; flex-shrink: 0;
-  border-radius: 10px; border: 1px solid var(--border);
-  background: var(--surface2); color: var(--text2);
-  font-size: 16px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; font-family: inherit;
+.slide-card-points li::before {
+  content: '▸'; position: absolute; left: 0;
+  color: var(--success); font-size: 12px; top: 7px;
 }
-.slide-arrow:hover:not(:disabled) {
-  background: var(--accent); border-color: var(--accent); color: #fff;
-}
-.slide-arrow:disabled { opacity: 0.25; cursor: not-allowed; }
-.slide-track {
-  flex: 1; position: relative; height: 34px;
-  display: flex; align-items: center; justify-content: center;
-}
-.slide-progress-bg {
-  position: absolute; inset: 0; top: 50%; transform: translateY(-50%);
-  height: 4px; background: var(--surface2); border-radius: 99px; margin: 0 4px;
-}
-.slide-progress-fill {
-  height: 100%; border-radius: 99px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  transition: width 0.3s ease;
-}
-.slide-dots-row {
-  display: flex; gap: 5px; align-items: center; justify-content: center;
-  flex-wrap: wrap; position: relative; z-index: 1;
-}
-.slide-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: rgba(255,255,255,0.15); border: none; padding: 0; cursor: pointer;
-  transition: all 0.2s; flex-shrink: 0;
-}
-.slide-dot.active {
-  background: var(--accent2);
-  transform: scale(1.35);
-  box-shadow: 0 0 6px rgba(129,140,248,0.6);
-}
-.slide-dot:hover:not(.active) { background: rgba(255,255,255,0.3); }
-.slide-expand-hint {
-  font-size: 10px; color: var(--text2); opacity: 0.6;
-  text-align: center; padding: 0 0 8px; letter-spacing: 0.3px;
-}
-
-/* Fullscreen overlay */
-.slide-fullscreen-overlay {
-  position: fixed; inset: 0; z-index: 300;
-  background: rgba(0,0,0,0.97);
-  display: flex; flex-direction: column;
-  animation: fadeIn 0.18s ease;
-}
-.slide-fs-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  flex-shrink: 0;
-}
-.slide-fs-title { font-size: 13px; font-weight: 700; color: var(--text2); }
-.slide-fs-close {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: var(--surface2); border: 1px solid var(--border);
-  color: var(--text); font-size: 18px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-family: inherit;
-}
-.slide-fs-canvas-wrap {
-  flex: 1; display: flex; align-items: center; justify-content: center;
-  overflow: hidden; padding: 16px;
-}
-.slide-fs-canvas-wrap canvas { max-width: 100%; max-height: 100%; border-radius: 8px; }
-.slide-fs-nav {
-  display: flex; align-items: center; justify-content: center; gap: 20px;
-  padding: 14px 20px 24px; flex-shrink: 0;
-  border-top: 1px solid rgba(255,255,255,0.07);
-}
-.slide-fs-arrow {
-  width: 44px; height: 44px; border-radius: 12px;
-  background: var(--surface2); border: 1px solid var(--border);
-  color: var(--text); font-size: 20px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; font-family: inherit;
-}
-.slide-fs-arrow:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); }
-.slide-fs-arrow:disabled { opacity: 0.25; cursor: not-allowed; }
-.slide-fs-info { font-size: 15px; font-weight: 700; color: var(--text); min-width: 80px; text-align: center; }
 </style>
 </head>
 <body>
@@ -618,33 +584,10 @@ strong { color: #e2e8f0; }
         <button class="back-link" onclick="goHome()">← コース一覧</button>
       </div>
 
-      <!-- Slide Viewer -->
-      <div class="slide-viewer" id="slide-viewer">
-        <div class="slide-viewer-header">
-          <div class="slide-viewer-label">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-            </svg>
-            スライド
-          </div>
-          <div class="slide-page-badge" id="slide-page-badge">...</div>
-        </div>
-        <div class="slide-canvas-wrap" id="slide-canvas-wrap" onclick="openSlideFullscreen()">
-          <canvas id="slide-canvas"></canvas>
-          <div class="slide-loading-state" id="slide-loading-state">
-            <div class="slide-spinner"></div>
-            <span>読み込み中...</span>
-          </div>
-        </div>
-        <div class="slide-expand-hint">タップで拡大</div>
-        <div class="slide-controls">
-          <button class="slide-arrow" id="slide-prev" onclick="event.stopPropagation();slidePrev()" disabled>‹</button>
-          <div class="slide-track" id="slide-track">
-            <div class="slide-progress-bg"><div class="slide-progress-fill" id="slide-progress-fill" style="width:0%"></div></div>
-            <div class="slide-dots-row" id="slide-dots-row"></div>
-          </div>
-          <button class="slide-arrow" id="slide-next" onclick="event.stopPropagation();slideNext()">›</button>
-        </div>
+      <!-- Slide Cards -->
+      <div class="slide-cards-wrap">
+        <div class="slide-cards-label">LESSON OVERVIEW</div>
+        <div id="slide-cards"></div>
       </div>
 
       <div id="ch-hero"></div>
@@ -754,22 +697,6 @@ strong { color: #e2e8f0; }
       </div>
     </div>
   </div><!-- /content -->
-
-  <!-- Slide Fullscreen Overlay -->
-  <div class="slide-fullscreen-overlay" id="slide-fs-overlay" style="display:none">
-    <div class="slide-fs-header">
-      <div class="slide-fs-title" id="slide-fs-title">スライド</div>
-      <button class="slide-fs-close" onclick="closeSlideFullscreen()">✕</button>
-    </div>
-    <div class="slide-fs-canvas-wrap">
-      <canvas id="slide-fs-canvas"></canvas>
-    </div>
-    <div class="slide-fs-nav">
-      <button class="slide-fs-arrow" id="slide-fs-prev" onclick="slideFsPrev()">‹</button>
-      <div class="slide-fs-info" id="slide-fs-info">1 / 1</div>
-      <button class="slide-fs-arrow" id="slide-fs-next" onclick="slideFsNext()">›</button>
-    </div>
-  </div>
 
   <!-- Bottom Nav -->
   <nav id="bottom-nav">
@@ -1421,8 +1348,8 @@ function renderChapter() {
   if(p.d===0) btn.textContent='学習を始める →';
   else if(p.d<p.t) btn.textContent='続きから読む →';
   else btn.textContent='もう一度見直す →';
-  // slide viewer
-  initPdfViewer();
+  // slide cards
+  renderSlideCards(ci);
 }
 
 // ===================== RENDER LESSON =====================
@@ -1769,143 +1696,129 @@ function quickAsk(q) {
   sendChat();
 }
 
-// ===================== SLIDE VIEWER =====================
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+// ===================== SLIDE CARDS =====================
+function renderSlideCards(ci) {
+  var ch = CHAPTERS[ci];
+  var m = CH_META[ci];
+  var wrap = document.getElementById('slide-cards');
+  if (!wrap) return;
 
-var _pdfDoc = null;
-var _slidePage = 1;
-var _slideRendering = false;
-var _slidePending = null;
-var _slideFsPage = 1;
-var _slideFsRendering = false;
+  var svgDiagrams = [
+    // ch0: bar chart (記述統計)
+    '<svg viewBox="0 0 260 110" width="260" height="110" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<line x1="28" y1="8" x2="28" y2="92" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>'
+    +'<line x1="28" y1="92" x2="252" y2="92" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>'
+    +'<rect x="42" y="72" width="28" height="20" rx="3" fill="#3b82f6" opacity="0.55"/>'
+    +'<rect x="80" y="50" width="28" height="42" rx="3" fill="#3b82f6" opacity="0.7"/>'
+    +'<rect x="118" y="28" width="28" height="64" rx="3" fill="#3b82f6" opacity="0.9"/>'
+    +'<rect x="156" y="44" width="28" height="48" rx="3" fill="#3b82f6" opacity="0.75"/>'
+    +'<rect x="194" y="65" width="28" height="27" rx="3" fill="#3b82f6" opacity="0.6"/>'
+    +'<text x="56" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">A</text>'
+    +'<text x="94" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">B</text>'
+    +'<text x="132" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">C</text>'
+    +'<text x="170" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">D</text>'
+    +'<text x="208" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">E</text>'
+    +'<text x="16" y="93" text-anchor="middle" fill="rgba(255,255,255,0.25)" font-size="8" font-family="Inter,sans-serif">0</text>'
+    +'</svg>',
 
-function initPdfViewer() {
-  if (_pdfDoc) { _slideRenderPage(_slidePage); return; }
-  pdfjsLib.getDocument('/slides.pdf').promise.then(function(pdf) {
-    _pdfDoc = pdf;
-    document.getElementById('slide-loading-state').style.display = 'none';
-    _slideRenderPage(1);
-  }).catch(function() {
-    var ls = document.getElementById('slide-loading-state');
-    if (ls) ls.innerHTML = '<span style="color:var(--danger)">PDFを読み込めませんでした</span>';
-  });
-}
+    // ch1: venn diagram (確率)
+    '<svg viewBox="0 0 260 110" width="260" height="110" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<circle cx="98" cy="55" r="42" fill="#8b5cf6" opacity="0.18" stroke="#8b5cf6" stroke-width="1.5"/>'
+    +'<circle cx="158" cy="55" r="42" fill="#3b82f6" opacity="0.18" stroke="#3b82f6" stroke-width="1.5"/>'
+    +'<text x="78" y="50" text-anchor="middle" fill="#a78bfa" font-size="18" font-weight="800" font-family="Inter,sans-serif">A</text>'
+    +'<text x="128" y="50" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="9" font-family="Inter,sans-serif">A∩B</text>'
+    +'<text x="178" y="50" text-anchor="middle" fill="#60a5fa" font-size="18" font-weight="800" font-family="Inter,sans-serif">B</text>'
+    +'<text x="78" y="66" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="8" font-family="Inter,sans-serif">A only</text>'
+    +'<text x="178" y="66" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="8" font-family="Inter,sans-serif">B only</text>'
+    +'<rect x="10" y="10" width="240" height="90" rx="8" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>'
+    +'<text x="248" y="98" text-anchor="end" fill="rgba(255,255,255,0.2)" font-size="7" font-family="Inter,sans-serif">全事象 Ω</text>'
+    +'</svg>',
 
-function _slideRenderPage(num) {
-  if (_slideRendering) { _slidePending = num; return; }
-  _slidePage = num;
-  _slideRendering = true;
-  _pdfDoc.getPage(num).then(function(page) {
-    var canvas = document.getElementById('slide-canvas');
-    if (!canvas) { _slideRendering = false; return; }
-    var wrap = document.getElementById('slide-canvas-wrap');
-    var w = wrap.clientWidth || 448;
-    var vp = page.getViewport({scale:1});
-    var scale = w / vp.width;
-    var sv = page.getViewport({scale:scale});
-    canvas.width = sv.width;
-    canvas.height = sv.height;
-    page.render({canvasContext: canvas.getContext('2d'), viewport: sv}).promise.then(function() {
-      _slideRendering = false;
-      _slideUpdateUI();
-      if (_slidePending !== null) {
-        var p = _slidePending; _slidePending = null; _slideRenderPage(p);
-      }
-    });
-  });
-}
+    // ch2: normal distribution bell curve (確率分布)
+    '<svg viewBox="0 0 260 110" width="260" height="110" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<path d="M 15,90 C 40,90 60,88 75,80 C 90,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 170,72 185,80 C 200,88 220,90 245,90" stroke="#14b8a6" stroke-width="2.5" fill="none"/>'
+    +'<path d="M 15,90 C 40,90 60,88 75,80 C 90,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 170,72 185,80 C 200,88 220,90 245,90 L245,90 L15,90Z" fill="#14b8a6" opacity="0.07"/>'
+    +'<path d="M 75,80 C 90,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 170,72 185,80 L185,90 L75,90Z" fill="#14b8a6" opacity="0.1"/>'
+    +'<line x1="130" y1="5" x2="130" y2="92" stroke="rgba(255,255,255,0.3)" stroke-dasharray="4,3" stroke-width="1"/>'
+    +'<text x="130" y="103" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="10" font-family="Inter,sans-serif">μ</text>'
+    +'<text x="75" y="103" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">μ−σ</text>'
+    +'<text x="185" y="103" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">μ+σ</text>'
+    +'<text x="130" y="58" text-anchor="middle" fill="#2dd4bf" font-size="8" font-family="Inter,sans-serif">68%</text>'
+    +'</svg>',
 
-function _slideUpdateUI() {
-  if (!_pdfDoc) return;
-  var total = _pdfDoc.numPages;
-  var badge = document.getElementById('slide-page-badge');
-  if (badge) badge.textContent = _slidePage + ' / ' + total;
-  var prev = document.getElementById('slide-prev');
-  var next = document.getElementById('slide-next');
-  if (prev) prev.disabled = _slidePage <= 1;
-  if (next) next.disabled = _slidePage >= total;
-  // progress bar
-  var fill = document.getElementById('slide-progress-fill');
-  if (fill) fill.style.width = (total > 1 ? (_slidePage - 1) / (total - 1) * 100 : 100) + '%';
-  // dots (show only if <= 24 pages)
-  var dotsRow = document.getElementById('slide-dots-row');
-  if (dotsRow) {
-    if (total <= 24) {
-      var h = '';
-      for (var i = 1; i <= total; i++) {
-        h += '<button class="slide-dot' + (i === _slidePage ? ' active' : '') + '" onclick="event.stopPropagation();goSlide(' + i + ')" title="' + i + '/' + total + '"></button>';
-      }
-      dotsRow.innerHTML = h;
-    } else {
-      dotsRow.innerHTML = '';
-    }
+    // ch3: confidence interval (推定)
+    '<svg viewBox="0 0 260 100" width="260" height="100" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<line x1="20" y1="50" x2="240" y2="50" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>'
+    +'<rect x="80" y="38" width="100" height="24" rx="6" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="1.5"/>'
+    +'<line x1="80" y1="32" x2="80" y2="68" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>'
+    +'<line x1="180" y1="32" x2="180" y2="68" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>'
+    +'<circle cx="130" cy="50" r="5" fill="#fbbf24"/>'
+    +'<text x="130" y="28" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10" font-family="Inter,sans-serif">x̄</text>'
+    +'<text x="80" y="82" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="8" font-family="Inter,sans-serif">下限</text>'
+    +'<text x="180" y="82" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="8" font-family="Inter,sans-serif">上限</text>'
+    +'<text x="130" y="82" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="700" font-family="Inter,sans-serif">95% CI</text>'
+    +'<line x1="20" y1="50" x2="60" y2="50" stroke="rgba(255,255,255,0.08)" stroke-width="3" stroke-dasharray="2,4"/>'
+    +'<line x1="200" y1="50" x2="240" y2="50" stroke="rgba(255,255,255,0.08)" stroke-width="3" stroke-dasharray="2,4"/>'
+    +'</svg>',
+
+    // ch4: hypothesis test rejection regions (仮説検定)
+    '<svg viewBox="0 0 260 110" width="260" height="110" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    +'<path d="M 15,90 C 40,90 60,88 75,80 C 90,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 170,72 185,80 C 200,88 220,90 245,90" stroke="#f43f5e" stroke-width="2" fill="none"/>'
+    +'<path d="M 15,90 C 35,90 52,90 62,82 L62,90Z" fill="#f43f5e" opacity="0.35"/>'
+    +'<path d="M 198,82 C 210,90 228,90 245,90 L245,90 L198,90Z" fill="#f43f5e" opacity="0.35"/>'
+    +'<path d="M 62,82 C 78,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 182,72 198,82 L198,90 L62,90Z" fill="#f43f5e" opacity="0.05"/>'
+    +'<line x1="62" y1="14" x2="62" y2="92" stroke="rgba(255,255,255,0.28)" stroke-dasharray="3,3" stroke-width="1"/>'
+    +'<line x1="198" y1="14" x2="198" y2="92" stroke="rgba(255,255,255,0.28)" stroke-dasharray="3,3" stroke-width="1"/>'
+    +'<text x="36" y="104" text-anchor="middle" fill="#f87171" font-size="8" font-family="Inter,sans-serif">棄却域α/2</text>'
+    +'<text x="130" y="104" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="8" font-family="Inter,sans-serif">採択域 (1−α)</text>'
+    +'<text x="222" y="104" text-anchor="middle" fill="#f87171" font-size="8" font-family="Inter,sans-serif">棄却域α/2</text>'
+    +'</svg>',
+  ];
+
+  var color = m.color;
+  var light = m.light;
+  var html = '';
+
+  // Chapter intro card
+  html += '<div class="slide-intro-card" style="border-color:' + color + '44;background:linear-gradient(160deg,' + color + '1a,' + color + '08)">';
+  html += '<div class="slide-intro-inner">';
+  html += '<div class="slide-intro-icon" style="background:' + color + '25;color:' + light + '">' + m.icon + '</div>';
+  html += '<div class="slide-intro-chapter" style="color:' + light + '">第' + (ci+1) + '章</div>';
+  html += '<div class="slide-intro-title">' + ch.title.replace('第'+(ci+1)+'章 ','') + '</div>';
+  html += '<div class="slide-intro-desc">' + m.desc + '</div>';
+  html += '</div>';
+  if (svgDiagrams[ci]) {
+    html += '<div class="slide-intro-svg">' + svgDiagrams[ci] + '</div>';
   }
-}
+  html += '</div>';
 
-function goSlide(num) {
-  if (!_pdfDoc) return;
-  num = Math.max(1, Math.min(_pdfDoc.numPages, num));
-  if (num !== _slidePage) _slideRenderPage(num);
-}
-function slidePrev() { goSlide(_slidePage - 1); }
-function slideNext() { goSlide(_slidePage + 1); }
-
-function openSlideFullscreen() {
-  if (!_pdfDoc) return;
-  var overlay = document.getElementById('slide-fs-overlay');
-  overlay.style.display = 'flex';
-  document.getElementById('content').style.overflow = 'hidden';
-  _slideFsPage = _slidePage;
-  _slideFsRenderPage(_slideFsPage);
-}
-
-function closeSlideFullscreen() {
-  document.getElementById('slide-fs-overlay').style.display = 'none';
-  document.getElementById('content').style.overflow = '';
-}
-
-function _slideFsRenderPage(num) {
-  if (_slideFsRendering) return;
-  _slideFsPage = num;
-  _slideFsRendering = true;
-  _pdfDoc.getPage(num).then(function(page) {
-    var canvas = document.getElementById('slide-fs-canvas');
-    var wrap = canvas.parentElement;
-    var maxW = wrap.clientWidth - 32;
-    var maxH = wrap.clientHeight - 32;
-    var vp = page.getViewport({scale:1});
-    var scale = Math.min(maxW / vp.width, maxH / vp.height);
-    var sv = page.getViewport({scale:scale});
-    canvas.width = sv.width;
-    canvas.height = sv.height;
-    page.render({canvasContext: canvas.getContext('2d'), viewport: sv}).promise.then(function() {
-      _slideFsRendering = false;
-      var total = _pdfDoc.numPages;
-      var info = document.getElementById('slide-fs-info');
-      if (info) info.textContent = _slideFsPage + ' / ' + total;
-      var fp = document.getElementById('slide-fs-prev');
-      var fn = document.getElementById('slide-fs-next');
-      if (fp) fp.disabled = _slideFsPage <= 1;
-      if (fn) fn.disabled = _slideFsPage >= total;
-    });
+  // One card per article
+  ch.articles.forEach(function(a, si) {
+    html += '<div class="slide-card">';
+    html += '<div class="slide-card-header">';
+    html += '<div class="slide-card-num" style="background:' + color + '">' + (si+1) + '</div>';
+    html += '<div class="slide-card-title">' + a.h + '</div>';
+    html += '</div>';
+    html += '<div class="slide-card-body">' + a.body + '</div>';
+    if (a.formula) {
+      html += '<div class="slide-card-formula">';
+      html += '<div class="slide-card-formula-label">FORMULA</div>';
+      html += '<div class="slide-card-formula-text">' + a.formula + '</div>';
+      html += '</div>';
+    }
+    if (a.points && a.points.length) {
+      var pts = a.points.slice(0, 5);
+      html += '<div class="slide-card-points">';
+      html += '<div class="slide-card-points-label">KEY POINTS</div>';
+      html += '<ul>';
+      pts.forEach(function(pt) { html += '<li>' + pt + '</li>'; });
+      html += '</ul></div>';
+    }
+    html += '</div>';
   });
-}
-function slideFsPrev() {
-  if (_slideFsPage > 1) { _slideFsPage--; _slideFsRenderPage(_slideFsPage); _slidePage = _slideFsPage; _slideUpdateUI(); }
-}
-function slideFsNext() {
-  if (!_pdfDoc) return;
-  if (_slideFsPage < _pdfDoc.numPages) { _slideFsPage++; _slideFsRenderPage(_slideFsPage); _slidePage = _slideFsPage; _slideUpdateUI(); }
-}
 
-// Keyboard navigation for fullscreen
-document.addEventListener('keydown', function(e) {
-  var overlay = document.getElementById('slide-fs-overlay');
-  if (!overlay || overlay.style.display === 'none') return;
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') slideFsNext();
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') slideFsPrev();
-  if (e.key === 'Escape') closeSlideFullscreen();
-});
+  wrap.innerHTML = html;
+}
 
 // ===================== INIT =====================
 document.addEventListener('DOMContentLoaded', function() {
