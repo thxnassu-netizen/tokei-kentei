@@ -462,35 +462,6 @@ strong { color: #e2e8f0; }
   letter-spacing: 1.2px; text-transform: uppercase;
   padding: 12px 0 10px;
 }
-.slide-intro-card {
-  border-radius: 18px; overflow: hidden;
-  border: 1px solid var(--border);
-  margin-bottom: 14px;
-}
-.slide-intro-inner {
-  padding: 28px 20px 20px; text-align: center;
-}
-.slide-intro-icon {
-  width: 64px; height: 64px; border-radius: 20px;
-  margin: 0 auto 14px;
-  display: flex; align-items: center; justify-content: center;
-}
-.slide-intro-icon svg { width: 36px; height: 36px; }
-.slide-intro-chapter {
-  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; opacity: 0.8; margin-bottom: 6px;
-}
-.slide-intro-title {
-  font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
-  margin-bottom: 10px; line-height: 1.3;
-}
-.slide-intro-desc {
-  font-size: 16px; color: var(--text2); line-height: 1.6;
-}
-.slide-intro-svg {
-  padding: 4px 16px 20px;
-  display: flex; justify-content: center;
-}
 .slide-card {
   background: var(--surface);
   border-radius: 18px;
@@ -1703,94 +1674,8 @@ function renderSlideCards(ci) {
   var wrap = document.getElementById('slide-cards');
   if (!wrap) return;
 
-  var svgDiagrams = [
-    // ch0: bar chart (記述統計)
-    '<svg viewBox="0 0 260 110" width="260" height="110" fill="none" xmlns="http://www.w3.org/2000/svg">'
-    +'<line x1="28" y1="8" x2="28" y2="92" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>'
-    +'<line x1="28" y1="92" x2="252" y2="92" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>'
-    +'<rect x="42" y="72" width="28" height="20" rx="3" fill="#3b82f6" opacity="0.55"/>'
-    +'<rect x="80" y="50" width="28" height="42" rx="3" fill="#3b82f6" opacity="0.7"/>'
-    +'<rect x="118" y="28" width="28" height="64" rx="3" fill="#3b82f6" opacity="0.9"/>'
-    +'<rect x="156" y="44" width="28" height="48" rx="3" fill="#3b82f6" opacity="0.75"/>'
-    +'<rect x="194" y="65" width="28" height="27" rx="3" fill="#3b82f6" opacity="0.6"/>'
-    +'<text x="56" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">A</text>'
-    +'<text x="94" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">B</text>'
-    +'<text x="132" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">C</text>'
-    +'<text x="170" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">D</text>'
-    +'<text x="208" y="106" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">E</text>'
-    +'<text x="16" y="93" text-anchor="middle" fill="rgba(255,255,255,0.25)" font-size="8" font-family="Inter,sans-serif">0</text>'
-    +'</svg>',
-
-    // ch1: venn diagram (確率)
-    '<svg viewBox="0 0 260 110" width="260" height="110" fill="none" xmlns="http://www.w3.org/2000/svg">'
-    +'<circle cx="98" cy="55" r="42" fill="#8b5cf6" opacity="0.18" stroke="#8b5cf6" stroke-width="1.5"/>'
-    +'<circle cx="158" cy="55" r="42" fill="#3b82f6" opacity="0.18" stroke="#3b82f6" stroke-width="1.5"/>'
-    +'<text x="78" y="50" text-anchor="middle" fill="#a78bfa" font-size="18" font-weight="800" font-family="Inter,sans-serif">A</text>'
-    +'<text x="128" y="50" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-size="9" font-family="Inter,sans-serif">A∩B</text>'
-    +'<text x="178" y="50" text-anchor="middle" fill="#60a5fa" font-size="18" font-weight="800" font-family="Inter,sans-serif">B</text>'
-    +'<text x="78" y="66" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="8" font-family="Inter,sans-serif">A only</text>'
-    +'<text x="178" y="66" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="8" font-family="Inter,sans-serif">B only</text>'
-    +'<rect x="10" y="10" width="240" height="90" rx="8" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>'
-    +'<text x="248" y="98" text-anchor="end" fill="rgba(255,255,255,0.2)" font-size="7" font-family="Inter,sans-serif">全事象 Ω</text>'
-    +'</svg>',
-
-    // ch2: normal distribution bell curve (確率分布)
-    '<svg viewBox="0 0 260 110" width="260" height="110" fill="none" xmlns="http://www.w3.org/2000/svg">'
-    +'<path d="M 15,90 C 40,90 60,88 75,80 C 90,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 170,72 185,80 C 200,88 220,90 245,90" stroke="#14b8a6" stroke-width="2.5" fill="none"/>'
-    +'<path d="M 15,90 C 40,90 60,88 75,80 C 90,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 170,72 185,80 C 200,88 220,90 245,90 L245,90 L15,90Z" fill="#14b8a6" opacity="0.07"/>'
-    +'<path d="M 75,80 C 90,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 170,72 185,80 L185,90 L75,90Z" fill="#14b8a6" opacity="0.1"/>'
-    +'<line x1="130" y1="5" x2="130" y2="92" stroke="rgba(255,255,255,0.3)" stroke-dasharray="4,3" stroke-width="1"/>'
-    +'<text x="130" y="103" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="10" font-family="Inter,sans-serif">μ</text>'
-    +'<text x="75" y="103" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">μ−σ</text>'
-    +'<text x="185" y="103" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">μ+σ</text>'
-    +'<text x="130" y="58" text-anchor="middle" fill="#2dd4bf" font-size="8" font-family="Inter,sans-serif">68%</text>'
-    +'</svg>',
-
-    // ch3: confidence interval (推定)
-    '<svg viewBox="0 0 260 100" width="260" height="100" fill="none" xmlns="http://www.w3.org/2000/svg">'
-    +'<line x1="20" y1="50" x2="240" y2="50" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>'
-    +'<rect x="80" y="38" width="100" height="24" rx="6" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="1.5"/>'
-    +'<line x1="80" y1="32" x2="80" y2="68" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>'
-    +'<line x1="180" y1="32" x2="180" y2="68" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>'
-    +'<circle cx="130" cy="50" r="5" fill="#fbbf24"/>'
-    +'<text x="130" y="28" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="10" font-family="Inter,sans-serif">x̄</text>'
-    +'<text x="80" y="82" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="8" font-family="Inter,sans-serif">下限</text>'
-    +'<text x="180" y="82" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="8" font-family="Inter,sans-serif">上限</text>'
-    +'<text x="130" y="82" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="700" font-family="Inter,sans-serif">95% CI</text>'
-    +'<line x1="20" y1="50" x2="60" y2="50" stroke="rgba(255,255,255,0.08)" stroke-width="3" stroke-dasharray="2,4"/>'
-    +'<line x1="200" y1="50" x2="240" y2="50" stroke="rgba(255,255,255,0.08)" stroke-width="3" stroke-dasharray="2,4"/>'
-    +'</svg>',
-
-    // ch4: hypothesis test rejection regions (仮説検定)
-    '<svg viewBox="0 0 260 110" width="260" height="110" fill="none" xmlns="http://www.w3.org/2000/svg">'
-    +'<path d="M 15,90 C 40,90 60,88 75,80 C 90,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 170,72 185,80 C 200,88 220,90 245,90" stroke="#f43f5e" stroke-width="2" fill="none"/>'
-    +'<path d="M 15,90 C 35,90 52,90 62,82 L62,90Z" fill="#f43f5e" opacity="0.35"/>'
-    +'<path d="M 198,82 C 210,90 228,90 245,90 L245,90 L198,90Z" fill="#f43f5e" opacity="0.35"/>'
-    +'<path d="M 62,82 C 78,72 100,55 115,25 C 122,10 128,6 130,5 C 132,6 138,10 145,25 C 160,55 182,72 198,82 L198,90 L62,90Z" fill="#f43f5e" opacity="0.05"/>'
-    +'<line x1="62" y1="14" x2="62" y2="92" stroke="rgba(255,255,255,0.28)" stroke-dasharray="3,3" stroke-width="1"/>'
-    +'<line x1="198" y1="14" x2="198" y2="92" stroke="rgba(255,255,255,0.28)" stroke-dasharray="3,3" stroke-width="1"/>'
-    +'<text x="36" y="104" text-anchor="middle" fill="#f87171" font-size="8" font-family="Inter,sans-serif">棄却域α/2</text>'
-    +'<text x="130" y="104" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="8" font-family="Inter,sans-serif">採択域 (1−α)</text>'
-    +'<text x="222" y="104" text-anchor="middle" fill="#f87171" font-size="8" font-family="Inter,sans-serif">棄却域α/2</text>'
-    +'</svg>',
-  ];
-
   var color = m.color;
-  var light = m.light;
   var html = '';
-
-  // Chapter intro card
-  html += '<div class="slide-intro-card" style="border-color:' + color + '44;background:linear-gradient(160deg,' + color + '1a,' + color + '08)">';
-  html += '<div class="slide-intro-inner">';
-  html += '<div class="slide-intro-icon" style="background:' + color + '25;color:' + light + '">' + m.icon + '</div>';
-  html += '<div class="slide-intro-chapter" style="color:' + light + '">第' + (ci+1) + '章</div>';
-  html += '<div class="slide-intro-title">' + ch.title.replace('第'+(ci+1)+'章 ','') + '</div>';
-  html += '<div class="slide-intro-desc">' + m.desc + '</div>';
-  html += '</div>';
-  if (svgDiagrams[ci]) {
-    html += '<div class="slide-intro-svg">' + svgDiagrams[ci] + '</div>';
-  }
-  html += '</div>';
 
   // One card per article
   ch.articles.forEach(function(a, si) {
